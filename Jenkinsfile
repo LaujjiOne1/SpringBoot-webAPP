@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        // Indiquez ici les noms exacts configurés dans "Administrer Jenkins -> Tools"
-        maven 'Maven3'
-    }
-
     stages {
         stage('1. Récupération du Code') {
             steps {
