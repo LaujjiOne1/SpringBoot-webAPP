@@ -2,60 +2,55 @@ pipeline {
     agent any
 
     tools {
-        // Associe le Maven configuré dans "Administrer Jenkins -> Tools"
+        // Indiquez ici les noms exacts configurés dans "Administrer Jenkins -> Tools"
         maven 'Maven3' 
-        // Associe le JDK configuré dans Jenkins
         jdk 'Java17'
     }
 
-    triggers {
-        // [Rappel TP2]: Permet le déclenchement à distance via un Token
-        // URL d'appel : http://localhost:8080/job/Nom_Du_Job/build?token=MON_SECRET_TOKEN
-        RemoteTrigger(token: '1010')
-    }
-
     stages {
-        stage('Nettoyage & Préparation') {
+        stage('1. Récupération du Code') {
             steps {
-                // [Rappel TP1]: Équivalent moderne de la commande Batch
-                echo '=== Nettoyage du projet Spring Boot ==='
+                echo '=== Récupération du projet depuis le dépôt distant ==='
+                // Utilise la configuration de votre Job Jenkins (gère vos Credentials automatiquement)
+                checkout scm 
+            }
+        }
+
+        stage('2. Nettoyage initial') {
+            steps {
+                echo '=== Nettoyage des anciens builds ==='
                 bat 'mvn clean'
             }
         }
 
-        stage('Exécution des Tests') {
+        stage('3. Exécution des Tests') {
             steps {
-                // [Rappel TP4 / Tests]: Lance vos tests JUnit 5 (MockMvc, Intégration, etc.)
-                echo '=== Lancement des tests unitaires et d\'intégration ==='
+                echo '=== Lancement de vos tests Spring Boot (JUnit 5) ==='
                 bat 'mvn test'
             }
         }
 
-        stage('Compilation & Package') {
+        stage('4. Compilation du Serveur') {
             steps {
-                // [Rappel TP4]: Compile le code Java et génère le fichier .jar exécutable
-                echo '=== Compilation et création du JAR Spring Boot ==='
+                echo '=== Compilation et création du fichier JAR exécutable ==='
+                // -DskipTests permet d'aller plus vite car les tests ont déjà été validés à l'étape précédente
                 bat 'mvn package -DskipTests' 
-            }
-        }
-
-        stage('Analyse Code (Optionnel)') {
-            steps {
-                // [Rappel TP4]: Si vous utilisez SonarQube comme dans le TP
-                echo '=== Analyse de la qualité du code avec SonarQube ==='
-                // bat 'mvn sonar:sonar' (Décommenter si le serveur Sonar est actif)
             }
         }
     }
 
     post {
         success {
-            echo '=== Le Build est un SUCCÈS ! Votre application est prête. ==='
-            // Optionnel : Vous pouvez ajouter ici une commande pour lancer le JAR en tâche de fond
-            // bat 'start /B java -jar target/*.jar'
+            echo '========================================================='
+            echo '  SUCCÈS ! Votre pipeline fonctionne parfaitement.     '
+            echo '  Le fichier JAR de votre serveur Spring Boot est prêt.  '
+            echo '========================================================='
         }
         failure {
-            echo '=== Le Build a ÉCHOUÉ. Vérifiez les rapports de tests ou de compilation. ==='
+            echo '========================================================='
+            echo '  ÉCHEC ! Le pipeline s\'est arrêté.                      '
+            echo '  Vérifiez les lignes d\'erreur ci-dessus dans la console.'
+            echo '========================================================='
         }
     }
 }
