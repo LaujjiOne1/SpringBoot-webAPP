@@ -8,6 +8,6 @@ public class MonControleur {
 
     @GetMapping("/")
     public String afficherMessage() {
-        return "<h1>Félicitations ! Votre application Java tourne sur le Web up!</h1>";
+        return "<h1>Félicitations ! Votre application Java tourne sur le Web !</h1>";
     }
 }
