@@ -28,7 +28,7 @@ pipeline {
                 echo '=== Lancement de vos tests Spring Boot (JUnit 5) ==='
                 // Remplacement de 'bat' par 'sh'
                 sh 'mvn test'
-            }d
+            }
         }
 
         stage('4. Compilation du Serveur') {
