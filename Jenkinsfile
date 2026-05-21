@@ -1,12 +1,18 @@
 pipeline {
     agent any
 
+    tools {
+        // Indiquez ici les noms exacts configurés dans "Administrer Jenkins -> Tools"
+        maven 'Maven3' 
+        jdk 'Java17'
+    }
+
     stages {
         stage('1. Récupération du Code') {
             steps {
                 echo '=== Récupération du projet depuis le dépôt distant ==='
                 // Utilise la configuration de votre Job Jenkins (gère vos Credentials automatiquement)
-                checkout scm
+                checkout scm 
             }
         }
 
@@ -28,7 +34,7 @@ pipeline {
             steps {
                 echo '=== Compilation et création du fichier JAR exécutable ==='
                 // -DskipTests permet d'aller plus vite car les tests ont déjà été validés à l'étape précédente
-                bat 'mvn package -DskipTests'
+                bat 'mvn package -DskipTests' 
             }
         }
     }
