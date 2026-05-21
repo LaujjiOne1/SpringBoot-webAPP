@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Ces outils doivent correspondre à ce qui est configuré dans Administrer Jenkins -> Tools
-        maven 'Maven3' 
+        maven 'Maven3'
         jdk 'Java17'
     }
 
@@ -11,7 +11,7 @@ pipeline {
         stage('1. Récupération du Code') {
             steps {
                 echo '=== Récupération du projet depuis le dépôt distant ==='
-                checkout scm 
+                checkout scm
             }
         }
 
@@ -28,7 +28,7 @@ pipeline {
                 echo '=== Lancement de vos tests Spring Boot (JUnit 5) ==='
                 // Remplacement de 'bat' par 'sh'
                 sh 'mvn test'
-            }
+            }d
         }
 
         stage('4. Compilation du Serveur') {
