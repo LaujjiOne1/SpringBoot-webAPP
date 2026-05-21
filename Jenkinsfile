@@ -11,7 +11,7 @@ pipeline {
     triggers {
         // [Rappel TP2]: Permet le déclenchement à distance via un Token
         // URL d'appel : http://localhost:8080/job/Nom_Du_Job/build?token=MON_SECRET_TOKEN
-        RemoteTrigger(token: 'MON_SECRET_TOKEN')
+        RemoteTrigger(token: '1010')
     }
 
     stages {
