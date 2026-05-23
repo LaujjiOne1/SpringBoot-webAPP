@@ -59,7 +59,7 @@ pipeline {
             steps {
                 echo '=== Lancement de l\'application conteneurisée ==='
                 // On utilise withCredentials pour récupérer ton DOCKER_USER pour l'image
-                withCredentials([usernamePassword(credentialsId: 'TknDckrHb', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHubKey', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_TOKEN')]) {
                     // Supprime le conteneur s'il tourne déjà pour pouvoir le mettre à jour
                     sh 'docker rm -f my-springboot-app || true'
                     
