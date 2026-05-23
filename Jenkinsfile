@@ -66,7 +66,7 @@ pipeline {
                     // Lance le conteneur en arrière-plan (-d) sur le port 8082 de ta machine
                     sh 'docker run -d --name my-springboot-app -p 8082:8080 "$DOCKER_USER"/my-helloworld-app:latest'
                     
-                    echo '=== Application disponible sur http://localhost:8082 ==='
+                    echo '=== Application disponible sur http://localhost:8082 lance pour le voir please ==='
                 }
             }
         }
