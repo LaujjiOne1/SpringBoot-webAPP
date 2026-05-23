@@ -2,31 +2,29 @@ pipeline {
     agent any
 
     tools {
-        // Ces outils doivent correspondre à ce qui est configuré dans Administrer Jenkins -> Tools
-        maven 'Maven3'
+        maven 'Maven3' 
         jdk 'Java17'
     }
 
     stages {
-        stage('1. Récupération du Code') {
+        stage('1. Code Checkout') {
             steps {
-                echo '=== Récupération du projet depuis le dépôt distant ==='
-                checkout scm
+                echo '=== Récupération du code depuis GitHub ==='
+                checkout scm 
             }
         }
 
         stage('2. Nettoyage initial') {
             steps {
-                echo '=== Nettoyage des anciens builds ==='
-                // Remplacement de 'bat' par 'sh'
-                sh 'mvn clean'
+                echo '=== Nettoyage et mise à jour forcée des dépendances ==='
+                // Force Maven à aller chercher les nouveaux starter-test sur internet
+                sh 'mvn clean dependency:resolve -U'
             }
         }
 
         stage('3. Exécution des Tests') {
             steps {
                 echo '=== Lancement de vos tests Spring Boot (JUnit 5) ==='
-                // Remplacement de 'bat' par 'sh'
                 sh 'mvn test'
             }
         }
@@ -34,24 +32,8 @@ pipeline {
         stage('4. Compilation du Serveur') {
             steps {
                 echo '=== Compilation et création du fichier JAR exécutable ==='
-                // Remplacement de 'bat' par 'sh'
                 sh 'mvn package -DskipTests' 
             }
-        }
-    }
-
-    post {
-        success {
-            echo '========================================================='
-            echo '  SUCCÈS ! Votre pipeline fonctionne parfaitement.     '
-            echo '  Le fichier JAR de votre serveur Spring Boot est prêt.  '
-            echo '========================================================='
-        }
-        failure {
-            echo '========================================================='
-            echo '  ÉCHEC ! Le pipeline s\'est arrêté.                      '
-            echo '  Vérifiez les lignes d\'erreur ci-dessus dans la console.'
-            echo '========================================================='
         }
     }
 }
