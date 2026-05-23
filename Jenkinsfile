@@ -42,7 +42,7 @@ pipeline {
         stage('5. Push to Docker Hub') {
             steps {
                 // Utilisation de votre identifiant secret 'TknDckrHb'
-                withCredentials([usernamePassword(credentialsId: 'TknDckrHb', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHubKey', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_TOKEN')]) {
                     
                     echo '=== Connexion à Docker Hub ==='
                     sh 'echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin'
