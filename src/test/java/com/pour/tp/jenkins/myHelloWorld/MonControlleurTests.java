@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc // Simule l'environnement web
-class MonControlleurTest {
+class MonControlleurTests {
 
     @Autowired
     private MockMvc mockMvc;
